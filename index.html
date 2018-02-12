@@ -370,7 +370,7 @@ shopping; // [ "tahini", "milk", "cheese", "hummus", "noodles" ]</code></pre>
 					<p>Per saber la mida d'un array usem <code>length</code>.</p>
 					<pre><code class="js">sequence.length; // 7</code></pre>
 					<p class="fragment">No confonguem mida amb número de valors. <code>length</code> retorna el darrer índex + 1.</p>
-					<pre class="fragment"><code class="js">sequence['100'] = 23;
+					<pre class="fragment"><code class="js">sequence[100] = 23;
 sequence.length; // 101</code></pre>
 				</section>
 				<section>
@@ -517,6 +517,351 @@ var refused = []
 
 console.log(admitted);
 console.log(refused);</code></pre>
+				</section>
+			</section>
+			<section>
+				<section>
+					<h2>Funcions</h2>
+					<p>La declaració d'una funció, generalment, consta de <code>function</code> + paràmetres + les seves sentències entre claus</p>
+					<pre><code class="js">function square(number) {
+  return number * number;
+}</code></pre>
+				</section>
+				<section>
+					<h2>Valor vs. referència</h2>
+					<p>Els tipus primaris es passen per valor (qualsevol canvi fet en una funció, no afecta al valor fora de l'àmbit d'aquesta).</p>
+					<p class="fragment">En canvi amb objectes (com per exemple <code>Array</code> o un objecte definit) es passen per referència (els canvi fets dins l'àmbit d'una funció, afecten al seu valor fora d'aquesta).</p>
+				</section>
+				<section>
+					<h2>Valor vs. referència</h2>
+					<pre><code class="js">function myFunc(theObject) {
+  theObject.make = 'Toyota';
+}
+
+var mycar = {make: 'Honda', model: 'Accord', year: 1998};
+var x, y;
+
+x = mycar.make; // x gets the value "Honda"
+
+myFunc(mycar);
+y = mycar.make; // y gets the value "Toyota"</code></pre>
+				</section>
+				<section>
+					<h2>Funcions anònimes</h2>
+					<p>En JS no cal que una funció tingui nom per a ser definida.</p>
+					<pre><code class="js">var myGreeting = function() {
+  alert('hello');
+}
+
+myGreeting();</code></pre>
+				</section>
+				<section>
+					<h2>Funcions anònimes</h2>
+					<p>El típico uso de las funciones anónimas, entre otros, es la asignación de código en un evento.</p>
+					<pre><code class="js">myButton.onclick = function() {
+  alert('hello');
+  // I can put as much code
+  // inside here as I want
+}</code></pre>
+				</section>
+				<section>
+					<h2>Un cas especial</h2>
+					<p><code>apply()</code> ens permet cridar a una funció amb els seus paràmetres en format array</p>
+					<pre><code class="js">var numbers = [5, 6, 2, 3, 7];
+
+var max = Math.max.apply(null, numbers);
+
+console.log(max); // 7</code></pre>
+				</section>
+				<section>
+					<h2>Paràmetres</h2>
+					<p>Per defecte, els paràmetres tenen com a valor <code>undefined</code>.</p>
+					<p class="fragment">Amb ES6 ja podem tenir paràmetres per defecte.</p>
+					<pre class="fragment"><code class="js">// Before ES6.
+function multiply(a, b) {
+  b = typeof b !== 'undefined' ?  b : 1;
+  return a * b;
+}
+
+multiply(5); // 5
+
+// Now.
+function multiply(a, b = 1) {
+  return a * b;
+}
+
+multiply(5); // 5</code></pre>
+				</section>
+				<section>
+					<h2>L'objecte <code>arguments</code></h2>
+					<p>Els paràmetres d'una funció s'emmagatzemen tots en un objecte "array" especial.</p>
+					<pre><code class="js">function myConcat(separator) {
+  var result = ''; // initialize list
+  // iterate through arguments
+  for (var i = 1; i < arguments.length; i++) {
+    result += arguments[i] + separator;
+  }
+  return result;
+}
+
+// returns "red, orange, blue, "
+myConcat(', ', 'red', 'orange', 'blue');</code></pre>
+				</section>
+				<section>
+					<h2>La resta...</h2>
+					<p>ES6 introdueix el concepte de <em>rest parameter</em></p>
+					<pre><code class="js">function multiply(multiplier, ...theArgs) {
+  return theArgs.map(x => multiplier * x);
+}
+
+var arr = multiply(2, 1, 2, 3);
+console.log(arr); // [2, 4, 6]</code></pre>
+				</section>
+			</section>
+			<section>
+				<section>
+					<h2>Closures</h2>
+					<p>Un <em>closure</em> és la combinació d'una funció amb l'àmbit on aquesta ha estat declarada.</p>
+					<pre><code class="js">function init() {
+  var name = 'Ramon'; // name is a local variable created by init
+  function displayName() { // displayName() is the inner function, a closure
+    alert(name); // use variable declared in the parent function
+  }
+  displayName();
+}
+init();</code></pre>
+				</section>
+				<section>
+					<h2>Closures</h2>
+					<pre><code class="js">function makeFunc() {
+  var name = 'Ramon';
+  function displayName() {
+    alert(name);
+  }
+  return displayName;
+}
+
+var myFunc = makeFunc();
+myFunc();</code></pre>
+				</section>
+				<section>
+					<h2>Closures</h2>
+					<pre><code class="js">function makeAdder(x) {
+  return function(y) {
+    return x + y;
+  };
+}
+
+var add5 = makeAdder(5);
+var add10 = makeAdder(10);
+
+console.log(add5(2));  // 7
+console.log(add10(2)); // 12</code></pre>
+				</section>
+				<section>
+					<h2>Emulant mètodes privats</h2>
+					<pre><code class="js">var counter = (function() {
+  var privateCounter = 0;
+  function changeBy(val) {
+    privateCounter += val;
+  }
+  return {
+    increment: function() {
+      changeBy(1);
+    },
+    decrement: function() {
+      changeBy(-1);
+    },
+    value: function() {
+      return privateCounter;
+    }
+  };
+})();
+
+console.log(counter.value()); // logs 0
+counter.increment();
+counter.increment();
+console.log(counter.value()); // logs 2
+counter.decrement();
+console.log(counter.value()); // logs 1</code></pre>
+				</section>
+				<section>
+					<h2>Emulant mètodes privats</h2>
+					<p>Podem crear múltiples comptadors.</p>
+					<pre><code class="js">var makeCounter = function() {
+  var privateCounter = 0;
+  function changeBy(val) {
+    privateCounter += val;
+  }
+  return {
+    increment: function() {
+      changeBy(1);
+    },
+    decrement: function() {
+      changeBy(-1);
+    },
+    value: function() {
+      return privateCounter;
+    }
+  }
+};
+
+var counter1 = makeCounter();
+var counter2 = makeCounter();
+alert(counter1.value()); /* Alerts 0 */
+counter1.increment();
+counter1.increment();
+alert(counter1.value()); /* Alerts 2 */
+counter1.decrement();
+alert(counter1.value()); /* Alerts 1 */
+alert(counter2.value()); /* Alerts 0 */</code></pre>
+				</section>
+				<section>
+					<h2>Recomanació d'ús</h2>
+					<p>En general, és una bona pràctica englobar els vostres <em>scripts</em> en funcions anònimes per controlar l'àmbit d'actuació de les vostres variables</p>
+					<pre><code class="js">(function() {
+  var myVar;
+
+  function myFunc() {
+    ...
+  }
+})();</code></pre>
+				</section>
+			</section>
+			<section>
+				<section>
+					<h2>Esdeveniment</h2>
+					<p>Els esdeveniments es llancen dins del navegador cada cop que passa una cosa. N'hi ha diversos <a href="https://developer.mozilla.org/en-US/docs/Web/Events">tipus</a>:</p>
+					<ul>
+						<li>Un usuari fa clic en un element.</li>
+						<li>Un usuari presiona una tecla.</li>
+						<li>S'envia un formulari.</li>
+						<li>Una pàgina s'acaba de carregar.</li>
+					</ul>
+				</section>
+				<section>
+					<h2>Un exemple</h2>
+					<pre><code class="html">&lt;button&gt;Change color&lt;/button&gt;</code></pre>
+					<pre><code class="js">var btn = document.querySelector('button');
+
+function random(number) {
+  return Math.floor(Math.random()*(number+1));
+}
+
+btn.onclick = function() {
+  var rndCol = 'rgb(' + random(255) + ',' + random(255) + ',' + random(255) + ')';
+  document.body.style.backgroundColor = rndCol;
+}</code></pre>
+				</section>
+				<section>
+					<h2>Prohibit</h2>
+					<p>Mai afegir <em>event handlers</em> en línia dins l'HTML.</p>
+					<pre><code class="html">&lt;button onclick="bgChange()"&gt;Press me&lt;/button&gt;</code></pre>
+					<p>A part de no ser bo barrejar HTML i JS en un mateix context, és difícil de gestionar i de mantenir.</p>
+				</section>
+				<section>
+					<h2><code>addEventListener()</code></h2>
+					<p>Una forma alternativa d'associar funcions a esdeveniments.</p>
+					<pre><code class="js">var btn = document.querySelector('button');
+
+btn.addEventListener('click', function() {
+  var rndCol = 'rgb(' + random(255) + ',' + random(255) + ',' + random(255) + ')';
+  document.body.style.backgroundColor = rndCol;
+});</code></pre>
+				</section>
+				<section>
+					<h2><code>removeEventListener()</code></h2>
+					<p>També podem esborrar funcions, <em>listeners</em>, quan aquests ja no siguin necessaris.</p>
+					<pre><code class="js">btn.removeEventListener('click', bgChange);</code></pre>
+					<p class="fragment">Això, per aplicacions complexes, pot ser molt important per a poder alleugerir la pàgina d'esdeveniments.</p>
+				</section>
+				<section>
+					<h2>Diferències</h2>
+					<p>Què fa això?</p>
+					<pre><code class="js">myElement.onclick = functionA;
+myElement.onclick = functionB;</code></pre>
+					<p class="fragment"><code>functionB</code> sobreescriu la funció anterior.</p>
+				</section>
+				<section>
+					<h2>Diferències - solució</h2>
+					<pre><code class="js">myElement.addEventListener('click', functionA);
+myElement.addEventListener('click', functionB);</code></pre>
+				</section>
+				<section>
+					<h2>L'objecte <code>Event</code></h2>
+					<p>Sempre, a tota funció associada a un esdeveniment se li passa un paràmetre que és l'objecte de l'esdeveniment llançat.</p>
+					<pre><code class="js">function bgChange(e) {
+  var rndCol = 'rgb(' + random(255) + ',' + random(255) + ',' + random(255) + ')';
+  e.target.style.backgroundColor = rndCol;
+  console.log(e);
+}
+
+btn.addEventListener('click', bgChange);</code></pre>
+				</section>
+				<section>
+					<h2>Prevenir el comportament</h2>
+					<pre><code class="html">&lt;a href="http://ymbra.com" title="Ymbra"&gt;Click me!&lt;/a&gt;</code></pre>
+					<pre><code class="js" data-noescape>var link = document.querySelector('a');
+link.onclick = function(e) {
+  <span class="fragment">e.preventDefault();</span>
+  alert(e.target.title + ' - ' + e.target.href);
+}</code></pre>
+					<p class="fragment">Un altre ús pot ser la validació d'un formulari.</p>
+				</section>
+				<section>
+					<h2><em>Event bubbling</em> i <em>capture</em></h2>
+					<p>Un exemple</p>
+					<pre><code class="html">&lt;button&gt;Display video&lt;/button&gt;
+&lt;div class="hidden"&gt;
+  &lt;video&gt;
+    &lt;source src="rabbit320.mp4" type="video/mp4"&gt;
+    &lt;source src="rabbit320.webm" type="video/webm"&gt;
+    &lt;p&gt;Your browser doesn't support HTML5 video. Here is a &lt;a href="rabbit320.mp4"&gt;link to the video&lt;/a&gt; instead.&lt;/p&gt;
+  &lt;/video&gt;
+&lt;/div&gt;</code></pre>
+				</section>
+				<section>
+					<h2><em>Event bubbling</em> i <em>capture</em></h2>
+					<pre><code class="js">btn.onclick = function() {
+  videoBox.setAttribute('class', 'showing');
+};
+
+videoBox.onclick = function() {
+  videoBox.setAttribute('class', 'hidden');
+};
+
+video.onclick = function() {
+  video.play();
+};</code></pre>
+				</section>
+				<section>
+					<h2><em>Event bubbling</em> i <em>capture</em></h2>
+					<p><img src="images/bubbling-capturing.png" style="background: #fff" /></p>
+				</section>
+				<section>
+					<h2><em>Event bubbling</em> i <em>capture</em></h2>
+					<p>Quan salta un esdeveniment, la majoria de navegadors moderns inicien dos fases: la captura i el <em>bubbling</em> de l'esdeveniment.</p>
+					<p class="fragment">A la majoria de navegadors moderns, els esdeveniments es llancen durant la fase de <em>bubbling</em>.</p>
+				</section>
+				<section>
+					<h2><em>Event bubbling</em> i <em>capture</em></h2>
+					<p>Per arreglar el problema anterior només cal usar <code>stopPropagation()</code></p>
+					<pre><code class="js">video.onclick = function(e) {
+  e.stopPropagation();
+  video.play();
+};</code></pre>
+				</section>
+				<section>
+					<h2>Exercici</h2>
+					<p>Amb un únic <em>listener</em> fer que al fer clic en un element de la llista mostri un missatge del tipus "He fet clic a l'element 4 de la llista"</p>
+					<pre><code class="html">&lt;ul&gt;
+  &lt;li id="item-1"&gt;Item 1&lt;/li&gt;
+  &lt;li id="item-2"&gt;Item 2&lt;/li&gt;
+  &lt;li id="item-3"&gt;Item 3&lt;/li&gt;
+  &lt;li id="item-4"&gt;Item 4&lt;/li&gt;
+  &lt;li id="item-5"&gt;Item 5&lt;/li&gt;
+  &lt;li id="item-6"&gt;Item 6&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
 				</section>
 			</section>
 			</div>
