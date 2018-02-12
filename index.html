@@ -1,0 +1,542 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Introducció al JavaScript</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<h1>Introducció al JavaScript</h1>
+					<h3>Fonaments bàsics</h3>
+					<p>
+						<small>Creat per en <a href="http://https://twitter.com/rvilar">Ramon Vilar</a> d'<a href="http://ymbra.com">Ymbra</a></small>
+					</p>
+				</section>
+
+				<section>
+					<h2>Una mica d’introducció</h2>
+					<ul>
+						<li>El JavaScript (JS) és un llenguatge de programació dinàmic que, aplicat a un document HTML, pot proporcionar interacció i dinamisme a les nostres pàgines web.</li>
+						<li>L’estàndard s’anomena ECMAScript
+							<ul>
+								<li>Actualment en procés d’implantació de la seva versió 6: ES6</li>
+								<li>Es poden veure les millores que introdueix a http://es6-features.org</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+				<section>
+					<section>
+						<h2>Un exemple senzill</h2>
+						<p>Si partim d'un codi HTML senzill com el següent:</p>
+						<pre><code class="html" data-trim>
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    <meta charset="utf-8">
+    <title>My test page</title>
+  &lt;/head&gt;
+  &lt;body&gt;
+    <h1>Hello world!</h1>
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+					</section>
+					<section>
+						<h2>Un exemple senzill</h2>
+						<p>Podem afegir la crida a un fitxer JS tot afegint el següent element abans del tancament de l'etiqueta <code>&lt;/body&gt;</code></p>
+						<pre><code class="html">&lt;script src="scripts/main.js"&gt;</code></pre>
+					</section>
+					<section>
+						<h2>Un exemple senzill</h2>
+						<p>I podem afegir aquestes senzilles línies al nostre fitxer <code>main.js</code></p>
+						<pre><code class="js" data-trim>
+var myHeading = document.querySelector('h1');
+myHeading.textContent = 'Hello JavaScript world!';
+						</code></pre>
+						<p class="fragment">...i benvinguts al món del JavaScript!</p>
+					</section>
+				</section>
+				<section>
+					<h2>Regles bàsiques</h2>
+					<ul>
+						<li>Tot i que no és obligatori, punt i coma al final de cada línia</li>
+						<li>JS és caseSensitive
+							<pre><code class="js">myvariable !== myVariable</code></pre>
+						</li>
+					</ul>
+				</section>
+				<section>
+					<h2>Eines de treball</h2>
+					<p>Les nostres eines de treball bàsiques per a programar JS són:</p>
+					<ul>
+						<li>Un editor de codi</li>
+						<li>Un navegador i la seva consola/depurador</li>
+					</ul>
+				</section>
+				<section>
+					<h2>Suport en navegadors</h2>
+					<ul>
+						<li><a href="https://caniuse.com/">caniuse.com</a>: Taules de suport per a diverses APIs i propietats HTML5, CSS3 i JS</li>
+						<li><a href="https://babeljs.io/">babel.js</a>: Biblioteca que transforms ES6 en ES5</li>
+					</ul>
+				</section>
+				<section>
+					<h1>Els bàsics</h1>
+				</section>
+				<section>
+					<h2>Comentaris</h2>
+					<p>No difereix gaire d'altres llenguatges de programació.</p>
+					<pre><code class="js">// This is a comment.</code></pre>
+					<pre><code class="js" data-trim>
+/*
+  This is a block
+  comment with
+  multiple lines.
+*/
+</code></pre>
+				</section>
+				<section>
+					<section>
+						<h2>Variables - <code class="js">var</code></h2>
+						<p>Les variables són contenidors per a valors que es poden usar més tard en sentències programàtiques.</p>
+						<pre><code class="js">var myName;
+var mySurname;
+myName = 'Ramon';
+mySurname = 'Vilar';
+var myAge = 34;</code></pre>
+					</section>
+					<section>
+						<h2>Variables - <code>var</code></h2>
+						<p>L'àmbit d'una variable declarada amb <code>var</code> és el seu context d'execució, és a dir, la funció que l'envolta o, en cas de no haver-hi funció, el seu àmbit seria global.</p>
+						<p>Les variables en JS poden ser redeclarades (i no perden el seu valor).</p>
+					</section>
+					<section>
+						<h2>Variables - <code>var</code></h2>
+						<pre><code class="js" data-trim>
+function x() {
+	y = 1;   // ReferenceError in strict mode
+	var z = 2;
+}
+
+x();
+
+console.log(y); // logs "1"
+console.log(z); // ReferenceError: z is not defined outside x</code></pre>
+					</section>
+					<section>
+						<h2>Variables - <code>var</code></h2>
+						<p>La declaració de variables es processa abans que s'executi cap codi.</p>
+						<pre><code class="js" data-trim>
+bla = 2;
+var bla;
+
+// is implicitly understood as:
+
+var bla;
+bla = 2;
+						</code></pre>
+						<p class="fragment">Per tant, es recomana que sempre es declarin les variablesa l'inici del nostre codi i/o funcions.</p>
+					</section>
+					<section>
+						<h2>Variables - <code>let</code></h2>
+						<p>ES6 introdueix les variables s'ambit de bloc</p>
+						<pre><code class="js" data-trim>
+let x = 1;
+
+if (x === 1) {
+  let x = 2;
+
+  console.log(x);
+  // expected output: 2
+}
+
+console.log(x);
+// expected output: 1
+						</code></pre>
+					</section>
+					<section>
+						<h2>Variables - <code>let</code></h2>
+						<pre><code class="js" data-trim>
+function varTest() {
+  var x = 1;
+  if (true) {
+    var x = 2;  // same variable!
+    console.log(x);  // 2
+  }
+  console.log(x);  // 2
+}
+
+function letTest() {
+  let x = 1;
+  if (true) {
+    let x = 2;  // different variable
+    console.log(x);  // 2
+  }
+  console.log(x);  // 1
+}
+					 </code></pre>
+				 </section>
+				 <section>
+					 <h2>Variables - <code>const</code></h2>
+					 <p>ES6 també introdueix un tipus especial de variables de bloc però que el seu valor esdevé constant i no es pot declarar.</p>
+					 <pre><code class="js" data-trim>const number = 42;
+
+try {
+  number = 99;
+} catch(err) {
+  console.log(err);
+  // expected output: TypeError: invalid assignment to const `number'
+  // Note - error messages will vary depending on browser
+}
+
+console.log(number);
+// expected output: 42
+</code></pre>
+				 </section>
+			 </section>
+			 <section>
+				 <section>
+					 <h2>Nombres</h2>
+					 <p>En programació hi ha diversos tipus numèrics</p>
+					 <ul>
+						 <li>Enters</li>
+						 <li>Coma flotant</li>
+						 <li><em>Doubles</em></li>
+						 <li>Binari</li>
+						 <li>Octal</li>
+						 <li>Hexadecimal</li>
+					 </ul>
+					 <p class="fragment">A JS tot són <code>number</code></p>
+				 </section>
+				 <section>
+					 <h2>Nombres</h2>
+					 <pre><code class="js" data-trim>var myInt = 5;
+var myFloat = 6.667;
+typeof myInt; // "number"
+typeof myFloat; // "number"
+</code></pre>
+				</section>
+				<section>
+					<h2>Operadors</h2>
+					<ul>
+						<li>Aritmètics: <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>%</code></li>
+						<li>Increment/decrement: <code>++</code>, <code>--</code></li>
+						<li>Assignació amb increment: <code>+=</code>, <code>-=</code>, <code>*=</code>, <code>/=</code></li>
+						<li>Comparació: <code>===</code>, <code>!==</code>, <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code></li>
+					</ul>
+				</section>
+				<section>
+					<h2>Operadors de comparació</h2>
+					<p>És correcte l'ús de <code>==</code> i de <code>===</code>, però no funcionen igual.</p>
+					<p class="fragment">L'ún comprova els valors i l'altre a més a més, els tipus.</p>
+					<pre class="fragment"><code class="js" data-trim>
+"" == false // true
+"" === false // false
+</code></pre>
+				</section>
+			 </section>
+			 <section>
+				 <section>
+					 <h2>Strings</h2>
+					 <p>Es poden declarar usant <code>"</code> o <code>'</code>.</p>
+					 <p class="fragment">Es recomana escollir un dels dos i usar sempre el mateix.</p>
+					 <pre class="fragment"><code class="js" data-trim>
+var single = 'Single quotes.';
+var double = "Double quotes.";
+					</code></pre>
+				</section>
+				<section>
+					<h2>Strings - concatenació</h2>
+					<p>Es poden concatenar strings usant <code>+</code>.</p>
+					<pre><code class="js" data-trim>var one = 'Hello, ';
+var two = 'how are you?';
+var joined = one + two;</code></pre>
+				</section>
+				<section>
+					<h2>Strings - mètodes</h2>
+					<p>Per saber la mida d'una cadena, podem usar el mètode <code>length</code>.</p>
+					<pre><code class="js" data-trim>var myName = "Ramon";
+myName.length // 5</code></pre>
+				</section>
+				<section>
+					<h2>Strings - mètodes</h2>
+					<p>Per accedir als caràcters d'una cadena es pot usar la notació d'array <code>[]</code>.</p>
+					<pre><code class="js" data-trim>myName[0]  // 'R'
+myName[myName.length -1]  // 'n'</code></pre>
+				</section>
+				<section>
+					<h2>Strings - mètodes</h2>
+					<p>Pot interessar veure si part d'una cadena existeix dins d'una altra. Per això es pot usar <code>indexOf()</code>.</p>
+					<pre><code class="js" data-trim>myName.indexOf('mon'); // 2
+myName.indexOf('Marta'); // -1</code></pre>
+				</section>
+				<section>
+					<h2>Strings - mètodes</h2>
+					<p>Es poden extreure parts d'una cadena usant <code>slice()</code>.</p>
+					<pre><code class="js" data-trim>myName.slice(0, 3); // 'Ram'
+myName.slice(2); // 'mon'</code></pre>
+				</section>
+				<section>
+					<h2>Strings - mètodes</h2>
+					<p>El canvi de caixa és una de la típica operació de programació.</p>
+					<pre><code class="js" data-trim>var radData = 'My NaMe Is èLIa';
+radData.toLowerCase();
+radData.toUpperCase();</code></pre>
+				</section>
+				<section>
+					<h2>Strings - mètodes</h2>
+					<p>Podem reemplaçar parts d'un string usant <code>replace()</code></p>
+					<pre><code class="js" data-trim>myName.replace('mon', 'fel');</code></pre>
+				</section>
+				<section>
+					<h2>Strings - Exercici</h2>
+					<pre><code class="js" data-trim>var greetings = ['Feliç aniversari!',
+                 'Bon Nadal amic meu',
+                 'Un bon Nadal a tota la família!',
+                 'Us vull a tots per Nadal',
+                 'Sigueu feliços sempre'];
+
+for (var i = 0; i < greetings.length; i++) {
+  var input = greetings[i];
+  // Si només vull veure felicitacions del Nadal.
+  if (greetings[i]) {
+    console.log(input);
+  }
+}</code></pre>
+				</section>
+				<section>
+					<h2>Strings - Exercici</h2>
+					<pre><code class="js" data-trim>var cities = ['lonDon', 'ManCHESTer', 'BiRmiNGHAM', 'liVERpoOL'];
+for(var i = 0; i < cities.length; i++) {
+  var input = cities[i];
+  // write your code just below here
+
+  console.log(input);
+}</code></pre>
+				</section>
+				<section>
+					<h2>Strings - Exercici</h2>
+					<pre><code class="js" data-trim>var stations = ['MAN675847583748sjt567654;Manchester Piccadilly',
+                'GNF576746573fhdg4737dh4;Greenfield',
+                'LIV5hg65hd737456236dch46dg4;Liverpool Lime Street',
+                'SYB4f65hf75f736463;Stalybridge',
+                'HUD5767ghtyfyr4536dh45dg45dg3;Huddersfield'];
+
+for (var i = 0; i < stations.length; i++) {
+  var input = stations[i];
+  // write your code just below here
+
+  console.log(input);
+}
+</code></pre>
+				</section>
+			</section>
+			<section>
+				<section>
+					<h2>Arrays</h2>
+					<p>Es declaren usant claudàtors <code>[]</code>.</p>
+					<pre><code class="js">var shopping = ['bread', 'milk', 'cheese', 'hummus', 'noodles'];
+var sequence = [1, 1, 2, 3, 5, 8, 13];
+var random = ['tree', 795, [0, 1, 2]];</code></pre>
+				</section>
+				<section>
+					<h2>Arrays - Accés i modificació</h2>
+					<p>S'accedeix utilitzant <code>[]</code>.</p>
+					<pre><code class="js">shopping[0]; // returns "bread"
+shopping[0] = 'tahini';
+shopping; // [ "tahini", "milk", "cheese", "hummus", "noodles" ]</code></pre>
+				</section>
+				<section>
+					<h2>Arrays - Mida</h2>
+					<p>Per saber la mida d'un array usem <code>length</code>.</p>
+					<pre><code class="js">sequence.length; // 7</code></pre>
+					<p class="fragment">No confonguem mida amb número de valors. <code>length</code> retorna el darrer índex + 1.</p>
+					<pre class="fragment"><code class="js">sequence['100'] = 23;
+sequence.length; // 101</code></pre>
+				</section>
+				<section>
+					<h2>Arrays - Mètodes</h2>
+					<p>Diverses formes de passar entre string y array.</p>
+					<pre><code class="js">var myData = 'Manchester,London,Liverpool,Birmingham,Leeds,Carlisle';
+var myArray = myData.split(',');
+myArray[0]; // 'Manchester'
+myArray[myArray.length - 1]; // 'Carlisle'
+var myNewString = myArray.join(',');
+
+var dogNames = ["Rocket","Flash","Bella","Slugger"];
+dogNames.toString(); //Rocket,Flash,Bella,Slugger</code></pre>
+				</section>
+				<section>
+					<h2>Arrays - Mètodes</h2>
+					<p>Es poden afegir y treure elements del final d'un array usant <code>push()</code> i <code>pop()</code>.</p>
+					<pre><code class="js">var myArray = ['Manchester', 'London', 'Liverpool', 'Birmingham', 'Leeds', 'Carlisle'];
+myArray.push('Cardiff');
+myArray.push('Bradford', 'Brighton');
+var newLength = myArray.push('Bristol');
+
+myArray.pop(); // 'Bristol'
+var removedItem = myArray.pop(); // 'Brighton'</code></pre>
+				</section>
+				<section>
+					<h2>Arrays - Mètodes</h2>
+					<p>Igualment es poden afegir y treure elements del principi d'un array usant <code>unshift()</code> i <code>shift()</code>.</p>
+					<pre><code class="js">myArray.unshift('Edinburgh');
+
+var removedItem = myArray.shift();</code></pre>
+				</section>
+				<section>
+					<h2>Arrays - Exercici</h2>
+					<pre><code class="js">var total = 0;
+// TODO
+'Underpants:6.99'
+'Socks:5.99'
+'T-shirt:14.99'
+'Trousers:31.99'
+'Shoes:23.99';
+
+for (var i = 0; i <= 0; i++) { // TODO
+  // TODO
+  itemText = 0;
+
+  console.log(itemText);
+}
+
+console.log('Total: ' + total.toFixed(2) + ' €');</code></pre>
+				</section>
+			</section>
+			<section>
+				<section>
+					<h2>Condicionals</h2>
+					<pre><code class="js">if (condition) {
+  // code to run if condition is true.
+} else if (condition2){
+  // run some other code instead.
+} else {
+  // run some other code instead.
+}</code></pre>
+				</section>
+				<section>
+					<h2>Un apunt important</h2>
+					<p>Qualsevol que no sigui <code>false</code>, <code>undefined</code>, <code>null</code>, <code>0</code>, <code>NaN</code> o un string buit ('') retorna <code>true</code>.</p>
+					<pre><code class="js">var cheese = 'Cheddar';
+
+if (cheese) {
+  console.log('Yay! Cheese available for making cheese on toast.');
+} else {
+  console.log('No cheese on toast for you today.');
+}</code></pre>
+				</section>
+				<section>
+					<h2>Operadors lògics</h2>
+					<pre><code class="js">if (choice === 'sunny' && temperature < 86) {
+  // Your code.
+} else if (iceCreamVanOutside || houseStatus === 'on fire') {
+  // More code.
+}</code></pre>
+				</section>
+				<section>
+					<h2>Més condicionals</h2>
+					<pre><code class="js">switch (expression) {
+  case choice1:
+    // run this code
+    break;
+
+  case choice2:
+    // run this code instead
+    break;
+
+  default:
+    // actually, just run this code
+}</code></pre>
+				</section>
+			</section>
+			<section>
+				<section>
+					<h2>Bucles</h2>
+					<pre><code class="js">for (var i = 0; i < cats.length; i++) {
+  info += cats[i] + ', ';
+}</code></pre>
+					<p class="fragment">Podem sortir de qualsevol bucle fent servir <code>break</code>.</p>
+					<p class="fragment">Podem saltar a la següent iteració d'un bucle fent servir <code>continue</code>.</p>
+				</section>
+				<section>
+					<h2>Bucles</h2>
+					<pre><code class="js">var i = 0;
+
+while (i < cats.length) {
+  if (i === cats.length - 1) {
+    info += 'and ' + cats[i] + '.';
+  } else {
+    info += cats[i] + ', ';
+  }
+
+  i++;
+}</code></pre>
+				</section>
+				<section>
+					<h2>Bucles</h2>
+					<pre><code class="js">var i = 0;
+
+do {
+  if (i === cats.length - 1) {
+    info += 'and ' + cats[i] + '.';
+  } else {
+    info += cats[i] + ', ';
+  }
+
+  i++;
+} while (i < cats.length);</code></pre>
+				</section>
+				<section>
+					<h2>Exercici</h2>
+					<p>Només volem deixar entrar aquells que comença el seu nom per A, B o C.</p>
+					<pre><code class="js">var people = ['Chris', 'Anne', 'Colin', 'Terri', 'Phil', 'Lola', 'Sam', 'Kay', 'Bruce'];
+var admitted = [];
+var refused = []
+
+// TODO.
+
+console.log(admitted);
+console.log(refused);</code></pre>
+				</section>
+			</section>
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info about config & dependencies:
+			// - https://github.com/hakimel/reveal.js#configuration
+			// - https://github.com/hakimel/reveal.js#dependencies
+			Reveal.initialize({
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				]
+			});
+		</script>
+	</body>
+</html>
