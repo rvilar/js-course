@@ -1029,6 +1029,34 @@ para.style.padding = '10px';</code></pre>
 					<h2>Exercici</h2>
 					<img src="images/shopping-list.png" />
 				</section>
+				<section>
+					<h2>Solució</h2>
+					<pre><code class="js">var button = document.querySelector('button');
+var input = document.querySelector('input');
+var list = document.querySelector('ul');
+
+button.addEventListener('click', function (e) {
+  var item = input.value;
+
+  if (item) {
+    // Create li element.
+    var li = document.createElement('li');
+    li.textContent = item;
+    list.appendChild(li);
+    input.value = '';
+
+    // Create a delete button.
+    var button = document.createElement('button');
+    button.textContent = 'Delete';
+    li.appendChild(button);
+
+    // Add an event to delete line item.
+    button.onclick = function () {
+      list.removeChild(li);
+    };
+  }
+});</code></pre>
+				</section>
 			</section>
 			</div>
 		</div>
