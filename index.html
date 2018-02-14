@@ -557,7 +557,7 @@ myGreeting();</code></pre>
 				</section>
 				<section>
 					<h2>Funcions anònimes</h2>
-					<p>El típico uso de las funciones anónimas, entre otros, es la asignación de código en un evento.</p>
+					<p>El típic ús de les funcions anònimes, entre d'altres, és l'assignació de codi a un esdeveniment.</p>
 					<pre><code class="js">myButton.onclick = function() {
   alert('hello');
   // I can put as much code
@@ -799,7 +799,7 @@ myElement.addEventListener('click', functionB);</code></pre>
 btn.addEventListener('click', bgChange);</code></pre>
 				</section>
 				<section>
-					<h2>Prevenir el comportament</h2>
+					<h2>Evitar el comportament</h2>
 					<pre><code class="html">&lt;a href="http://ymbra.com" title="Ymbra"&gt;Click me!&lt;/a&gt;</code></pre>
 					<pre><code class="js" data-noescape>var link = document.querySelector('a');
 link.onclick = function(e) {
@@ -862,6 +862,172 @@ video.onclick = function() {
   &lt;li id="item-5"&gt;Item 5&lt;/li&gt;
   &lt;li id="item-6"&gt;Item 6&lt;/li&gt;
 &lt;/ul&gt;</code></pre>
+				</section>
+			</section>
+			<section>
+				<section>
+					<h2>Objectes</h2>
+					<p>Per crear un objecte amb JS és tan senzill com declarar una variable amb <code>{}</code>.</p>
+					<pre><code class="js">var person = {};</code></pre>
+				</section>
+				<section>
+					<h2>Objectes</h2>
+					<p>Un objecte pot tenir propietats i mètodes.</p>
+					<pre><code class="js">var person = {
+  name: ['Ramon', 'Vilar'],
+  age: 34,
+  gender: 'male',
+  interests: ['mtb', 'books'],
+  bio: function() {
+    alert(this.name[0] + ' ' + this.name[1] + ' is ' + this.age + ' years old. He likes ' + this.interests[0] + ' and ' + this.interests[1] + '.');
+  }
+};</code></pre>
+				</section>
+				<section>
+					<h2>Objectes - accés</h2>
+					<p>Podem accedir a les seves propietats i mètodes usant <code>.</code>.</p>
+					<pre><code class="js">person.name[0];
+person.age;
+person.interests[1];
+person.bio();</code></pre>
+				</section>
+				<section>
+					<h2>Objectes - accés</h2>
+					<p>Hi ha una forma alternativa d'accedir-hi.</p>
+					<pre><code class="js">person['name'][0];
+person['age'];</code></pre>
+					<p class="fragment">Això ens pot servir per crear elements dinàmics dins d'un objecte</p>
+					<pre class="fragment"><code>var propertyName = 'city';
+person[propertyName] = 'Montcada i Reixac';</code></pre>
+				</section>
+				<section>
+					<h2>JavaScript OOP</h2>
+					<p>A JS també podem crear classes i instanciar-les (ja veurem més tard les diferències amb d'altres llenguatges de programació).</p>
+					<pre><code class="js">function Person(name) {
+  this.name = name;
+  this.greeting = function() {
+    alert('Hi! I\'m ' + this.name + '.');
+  };
+}
+
+var person1 = new Person('Marta');
+var person2 = new Person('Èlia');
+</code></pre>
+				</section>
+				<section>
+					<h2>JavaScript OOP</h2>
+					<pre><code class="js">{
+  name: 'Bob',
+  greeting: function() {
+    alert('Hi! I\'m ' + this.name + '.');
+  }
+}
+
+{
+  name: 'Sarah',
+  greeting: function() {
+    alert('Hi! I\'m ' + this.name + '.');
+  }
+}</code></pre>
+					<p class="fragment">Això defineix cada cop la funció <code>greetings</code>!</p>
+				</section>
+				<section>
+					<h2>Herència vs. <em>prototype</em></h2>
+					<p>El JavaScript és un <em>prototype-based language</em></p>
+					<p class="fragment">Això vol dir que cada objecte té una "plantilla" sobre el qual es basa (hereta tots els mètodes i propietats).</p>
+					<p class="fragment">Igualment, aquest objecte plantilla (<em>object prototype</em>) pot tenir a la vegada, un altre objecte sobre el que hereta informació.</p>
+					<p class="fragment">Això s'anomena <em>prototype chain</em></p>
+				</section>
+				<section>
+					<h2>Un exemple</h2>
+					<pre><code class="js">Person.prototype.farewell = function() {
+  alert(this.name.first + ' has left the building. Bye for now!');
+};</code></pre>
+					<p class="fragment">A partir d'ara, qualsevol objecte de tipus <code>Person</code> té un nou mètode encara que ja hagi estat instanciat.</p>
+				</section>
+				<section>
+					<h2>En resum</h2>
+					<p>El patró típic en la definició d'objectes que s'utilitza és definir les propietats al constructor i els mètodes a <code>prototype</code>.</p>
+					<pre><code class="js">function Test(a, b, c, d) {
+  // property definitions
+}
+
+Test.prototype.x = function() { ... };
+
+Test.prototype.y = function() { ... };</code></pre>
+				</section>
+			</section>
+			<section>
+				<section>
+					<h2>Manipulació del DOM</h2>
+					<p>Per poder modificar l'estructura de la nostra pàgina hem de treballar directament amb el <em>Document Object Model</em> (DOM).</p>
+					<p class="fragment">El JS ens ofereix una sèrie d'APIs per a poder manipular la seva informació fins a obtenir allò que busquem.</p>
+				</section>
+				<section>
+					<img src="images/document-window-navigator.png" />
+				</section>
+				<section>
+					<h2>El DOM</h2>
+					<pre><code class="html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;Simple DOM example&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;section&gt;
+      &lt;img src="dinosaur.png" alt="A red Tyrannosaurus Rex: A two legged dinosaur standing upright like a human, with small arms, and a large head with lots of sharp teeth."&gt;
+      &lt;p&gt;Here we will add a link to the &lt;a href="https://www.mozilla.org/"&gt;Mozilla homepage&lt;/a&gt;&lt;/p&gt;
+    &lt;/section&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+				</section>
+				<section>
+					<img src="images/dom-screenshot.png" />
+				</section>
+				<section>
+					<h2>Selectors</h2>
+					<pre><code class="js">var link = document.querySelector('a');
+// link is HTMLAnchorElement
+link.textContent = 'Mozilla Developer Network';
+					</code></pre>
+					<p class="fragment">Per seleccionar-ne múltiples es pot usar <code>querySelectorAll()</code></p>
+				</section>
+				<section>
+					<h2>Crear elements</h2>
+					<pre><code class="js">var sect = document.querySelector('section');
+var para = document.createElement('p');
+para.textContent = 'I hope you enjoyed the course.';
+sect.appendChild(para);</code></pre>
+				</section>
+				<section>
+					<h2>Eliminar elements</h2>
+					<pre><code class="js">sect.removeChild(para);</code></pre>
+				</section>
+				<section>
+					<h2>Manipular estils</h2>
+					<pre><code class="js">para.style.color = 'white';
+para.style.backgroundColor = 'black';
+para.style.padding = '10px';</code></pre>
+				</section>
+				<section>
+					<h2>Manipular atributs</h2>
+					<pre><code class="js">para.setAttribute('class', 'highlight');</code></pre>
+					<p class="fragment">Això ens serveix per a qualsevol atribut HTML.</p>
+				</section>
+				<section>
+					<h2>Exercici</h2>
+					<pre><code class="html">&lt;h1&gt;My shopping list&lt;/h1&gt;
+&lt;div&gt;
+  &lt;label for="item"&gt;Enter a new item:&lt;/label&gt;
+  &lt;input type="text" name="item" id="item"&gt;
+  &lt;button&gt;Add item&lt;/button&gt;
+&lt;/div&gt;
+&lt;ul&gt;&lt;/ul&gt;</code></pre>
+				</section>
+				<section>
+					<h2>Exercici</h2>
+					<img src="images/shopping-list.png" />
 				</section>
 			</section>
 			</div>
