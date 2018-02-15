@@ -1257,6 +1257,143 @@ $('.switch').click(function() {
 					<img src="images/shopping-list.png" />
 				</section>
 			</section>
+			<section>
+				<section>
+					<h2>Plugins jQuery</h2>
+					<p>Crear un connector per a jQuery és d'allò més fàcil. Partim del següent codi.</p>
+					<pre class="fragment"><code class="js">$('a').css('color', 'green');</code></pre>
+					<p class="fragment">Agafem com a exemple un connector que modifiqui qualsevol element fent que el seu text passi a ser de color verd. És tan senzill com:</p>
+					<pre class="fragment"><code class="js">$.fn.greenify = function() {
+  this.css('color', 'green');
+	return this;
+};
+
+$('a').greenify();</code></pre>
+				</section>
+				<section>
+					<h2>Protegir</h2>
+					<p>De cara a protegir qualsevol funció auxiliar o variable que puguem crear, es recomana sempre envoltar-ho d'una funció anònima passant <code>jQuery</code> per a protegir l'àmbit de declaració de <code>$</code></p>
+					<pre><code class="js">(function ($) {
+
+  var shade = '#556b2f';
+
+  $.fn.greenify = function() {
+    this.css('color', shade);
+    return this;
+  };
+
+}(jQuery));</code></pre>
+				</section>
+				<section>
+					<h2>Plugins amb paràmetres</h2>
+					<pre><code class="js">(function ($) {
+
+  $.fn.greenify = function(options) {
+
+    // This is the easiest way to have default options.
+    var settings = $.extend({
+      color: '#556b2f',
+      backgroundColor: '#fff'
+    }, options);
+
+    return this.css({
+      color: settings.color,
+      backgroundColor: settings.backgroundColor
+    });
+
+  };
+
+}( jQuery ));</code></pre>
+					<pre><code class="js">$('div').greenify({
+  color: 'yellow'
+});</code></pre>
+				</section>
+			</section>
+			<section>
+				<section>
+					<h2>Arquitectura de la web clàsica</h2>
+					<p>La típica arquitectura web de client servidor és completament síncrona.</p>
+					<img src="images/web-site-architechture@2x.png" style="background: #fff" />
+				</section>
+				<section>
+					<h2>Arquitectura "moderna"</h2>
+					<p>Des d'uns anys ençà existeix la comunicació asíncrona inicialment amb Ajax.</p>
+					<img src="images/moderne-web-site-architechture@2x.png" style="background: #fff" />
+				</section>
+				<section>
+					<h2>Arquitectura d'app</h2>
+					<p>Des de fa anys que hi ha moltes més possibilitats com els Web Sockets, Web Storage entre d'altres.</p>
+					<img src="images/web-app-architecture@2x.png" style="background: #fff; width: 60%" />
+				</section>
+				<section>
+					<h2>L'objecte XMLHttpRequest</h2>
+					<p>Aquesta tecnologia, també anomenada XHR fou inventada per Microsoft als 90.</p>
+					<pre><code class="js">var request = new XMLHttpRequest();
+request.open('GET', url);
+request.responseType = 'json';
+
+request.onload = function() {
+  if (request.status === 200) {
+    console.dir(request.response);
+  } else {
+    console.log('Error ' + request.status + ': ' + request.statusText);
+  }
+};
+
+request.send();</code></pre>
+				</section>
+				<section>
+					<h2>Promises/Fetch: el futur?</h2>
+					<pre><code class="js">fetch(url).then(function(response) {
+  if (response.ok) {
+    response.json().then(function(json) {
+      console.log(json);
+    });
+  } else {
+    console.log('Error ' + response.status + ': ' + response.statusText);
+  }
+});</code></pre>
+				</section>
+				<section>
+					<h2>Ajax amb jQuery</h2>
+					<p>jQuery disposa d'una funció <code>$.ajax()</code> per a fer crides i gestionar les seves respostes.</p>
+					<pre><code class="js">$.ajax({
+  url: 'post.php',
+  data: {    // Data to send (as a query string).
+    id: 123
+  },
+  type: 'GET',
+  dataType : 'json', // The type of data we expect back.
+})</code></pre>
+				</section>
+				<section>
+					<h2>Ajax amb jQuery</h2>
+					<p>Disposa d'una funció que crida la petició quan aquesta cabaa amb èxit.</p>
+					<pre><code class="js">.done(function(json) {
+  $('&lt;h1&gt;').text(json.title).appendTo('body');
+})</code></pre>
+				</section>
+				<section>
+					<h2>Ajax amb jQuery</h2>
+					<p>Igualment disposa també d'una funció que es crida si hi ha cap error amb la petició.</p>
+					<pre><code class="js">.fail(function(xhr, status, errorThrown) {
+  console.log('Error: ' + errorThrown);
+  console.log('Status: ' + status);
+  console.dir(xhr);
+})</code></pre>
+				</section>
+				<section>
+					<h2>Ajax amb jQuery</h2>
+					<p>I una funció especial perquè, passi el que passi (error o èxit), es cridi.</p>
+					<pre><code class="js"> .always(function(xhr, status) {
+  alert('The request is complete!');
+});</code></pre>
+				</section>
+				<section>
+					<h2>Exercici</h2>
+					<p>Treballant amb l'API de Meetup (<a href="https://secure.meetup.com/meetup_api">https://secure.meetup.com/meetup_api</a>) creeu un formulari bàsic per a cercar grups usant la funció <code>/find/groups/</code></p>
+				</section>
+			</section>
 			</div>
 		</div>
 
