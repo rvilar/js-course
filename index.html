@@ -1058,6 +1058,187 @@ button.addEventListener('click', function (e) {
 });</code></pre>
 				</section>
 			</section>
+			<section>
+				<section>
+					<h2>jQuery</h2>
+					<p>És una biblioteca JavaScript.</p>
+					<p class="fragment">Per treballar i entendre jQuery es recomana un coneixement sòlid de JS.</p>
+				</section>
+				<section>
+					<h2>JS <code>onload</code> vs. jQuery <code>ready</code></h2>
+					<pre><code class="js">window.onload = function() {
+  alert("Welcome to JS world!");
+};</code></pre>
+					<p class="fragment">Espera que tota la pàgina es carregui - incloent imatges o bàners.</p>
+					<p class="fragment">Molt lent i massa tard! Enlenteix la pàgina.</p>
+				</section>
+				<section>
+					<h2>JS <code>onload</code> vs. jQuery <code>ready</code></h2>
+					<pre><code class="js">$(document).ready(function() {
+  alert("Welcome to jQuery world!");
+});</code></pre>
+					<p><code>.ready()</code> permet poder executar JS quan el DOM ja està carregat i pot ser manipulat.</p>
+				</section>
+				<section>
+					<h2><code>$</code></h2>
+					<p>jQuery crea un àlies a <code>$</code> per poder usar la selecció d'elements i cridar a les seves funcions específiques</p>
+					<ul class="fragment">
+						<li>Els mètodes que es criden sobre una selecció d'elements estan a l'espai de noms <code>$.fn</code> i reben i retornen la selecció com a <code>this</code></li>
+						<li>Mètodes a l'espai de noms <code>$</code> són utilitats, com per exemple <code>$.ajax()</code></li>
+					</ul>
+				</section>
+				<section>
+					<h2>Selectors</h2>
+					<p>Es pot fer servir qualsevol selector CSS per poder navegar (a més a més d'alguns especials propis).</p>
+					<pre><code class="js">$('#myId');
+$('.myClass');
+$('input[name="first_name"]');
+$('#contents ul.people li');  // Needs improvement.
+$('div.myClass, ul.people');
+$('tr:odd');
+$('form :checked');</code></pre>
+				</section>
+				<section>
+					<h2>Selectors - refinant</h2>
+					<p>Una vegada feta una cerca es pot refinar en operacions posteriors</p>
+					<pre><code class="js">$('div.foo').has('p');           // div.foo elements that contain 'p' tags
+$('h1').not('.bar');             // h1 elements that don't have a class of bar
+$('ul li').filter('.current');   // unordered list items with class of current
+$('ul li').first();              // just the first unordered list item
+$('ul li').eq(5);                // the sixth</code></pre>
+				</section>
+				<section>
+					<h2>Resultats en una selecció</h2>
+					<p>Qualsevol selector retorna un objecte jQuery.</p>
+					<p class="fragment">Per conèixer si un selector retorna algun element, només cal mirar la propietat <code>length</code> de l'objecte jQuery</p>
+					<pre class="fragment"><code class="js">if ($('h1').length) {
+  // My code.
+}</code></pre>
+				</section>
+				<section>
+					<h2>Getters & setters</h2>
+					<p>Hi ha mètodes per obtenir i modificar valors.</p>
+					<pre><code class="js">$('input').val(); // gets value.
+$('input').val(myValue); // sets value.
+
+$('input').attr('checked'); // gets value.
+$('input').attr('checked', true); // sets value.</code></pre>
+				</section>
+				<section>
+					<h2>Encadenament</h2>
+					<p>La majoria de crides a mètode de jQuery retornen un objecte jQuery. Això ens permet encadenar mètodes</p>
+					<pre><code class="js">$('#main').find('.list-item').eq(4).html('Hello world!');</code></pre>
+					<p class="fragment">Sovint en aquests casos es mostra en múltiples línies</p>
+					<pre class="fragment"><code class="js">$('#main')
+  .find('.list-item')
+  .eq(4)
+  .html('Hello world!');</code></pre>
+				</section>
+				<section>
+					<h2>Encadenament</h2>
+					<p>Es pot tornar a la selecció anterior tot usant <code>.end()</code></p>
+					<pre class="fragment"><code class="js">$('#main')
+  .find('.list-item')
+  .eq(4)
+    .html('Hello world!')
+    .end()
+  .eq(155)
+    .addClass('remove');</code></pre>
+					<p class="fragment">És una de les grans potències de jQuery.</p>
+				</section>
+				<section>
+					<h2>Manipulació del DOM</h2>
+					<p>Existeixen múltiples funcions que ens permeten la manipulació del DOM.</p>
+					<pre><code class="js">$('.modal-video').appendTo('body');</code></pre>
+					<p class="fragment">Altres funcions interessants: <code>.insertAfter() .after() .insertBefore() .prepend() .prependTo()</code>...</p>
+				</section>
+				<section>
+					<h2>Manipulació del DOM</h2>
+					<p>També es poden clonar elements fàcilment.</p>
+					<pre><code class="js">$('.modal-video').clone().appendTo('body');</code></pre>
+					<p class="fragment">I eliminar elements.</p>
+					<pre class="fragment"><code class="js">$('.modal-video').remove();</code></pre>
+					<p class="fragment"><code>.empty()</code> i <code>.detach()</code> són d'altres funcions interessants.</p>
+				</section>
+				<section>
+					<h2>Crear nous elements al DOM.</h2>
+					<p>Diverses formes de crear-ne</p>
+					<pre><code class="js">$('&lt;p&gt;This is a new paragraph&lt;/p&gt;');
+
+$('&lt;a/&gt;', {
+  html: 'My &lt;strong&gt;new&lt;/strong&gt; link',
+  'class': 'new',
+  href: 'http://ymbra.com'
+});
+
+$('ul').append('&lt;li&gt;list item&lt;/li&gt;');</code></pre>
+				</section>
+				<section>
+					<h2>Crear nous elements al DOM - Recomanació</h2>
+					<p>Mai crear i afegir nous elements al DOM dins d'un bucle. Podem crear un array i després bolcar-lo de cop.</p>
+					<pre><code class="js">var myItems = [];
+var myList = $('#myList');
+
+for (var i = 0; i < 100; i++) {
+  myItems.push('&lt;li&gt;item ' + i + '&lt;/li&gt;');
+}
+
+myList.append(myItems.join(''));</code></pre>
+				</section>
+				<section>
+					<h2>Traversing</h2>
+					<p>Des d'un element del DOM podem accedir als seus pares, germans, etc. de forma fàcil i senzilla</p>
+					<pre><code class="js">$('.element').parent();
+$('.element').parents();
+$('.element').parents('.my-class');
+$('.element').parentsUntil('.my-class');
+$('.element').closest('.my-class');
+$('.element').next();
+$('.element').prev();
+$('.element').siblings();</code></pre>
+				</section>
+				<section>
+					<h2>Esdeveniments</h2>
+					<p>Diverses formes d'afegir un o varis esdeveniments.</p>
+					<pre><code class="js">$('p').click(function() {
+  console.log('You clicked a paragraph!');
+});
+
+$('p').on('click', function() {
+  console.log('You clicked a paragraph!');
+});</code></pre>
+					<p class="fragment">La funció <code>.on()</code> és la forma recomanada i permet moltes opcions interessants com escoltar esdeveniments en elements que futurs.</p>
+				</section>
+				<section>
+					<h2>Esdeveniments - Recomanacions</h2>
+					<p>Quan un esdeveniment ja no tingui sentit, el podem desconnectar usant <code>.off()</code></p>
+					<p class="fragment">En cas d'aplicacions grans o desenvolupament d'una biblioteca, es recomana usar esdeveniments amb <em>namespace</em>.</p>
+					<pre class="fragment"><code class="js">$(element).on('click.myLibrary', myFunc);
+$(form).on('submit.myLibrary', mySubmitFunc);
+...
+$(element).off('myLibrary');</code></pre>
+				</section>
+				<section>
+					<h2>Esdeveniments personalitzats</h2>
+					<p>Si estem creant un giny o una biblioteca, ens pot interessar el llançament d'un esdeveniment personalitzat en un moment determinat.</p>
+					<p class="trigger">Això es pot fer usant la funció <code>.trigger()</code> tot passant-li un nom per al nostre nou esdeveniment.</p>
+				</section>
+				<section>
+					<h2>Esdeveniments personalitzats</h2>
+					<pre><code class="js">$('.lightbulb').on('light:toggle', function(event) {
+  // My code.
+});
+
+$('.switch').click(function() {
+  $('.lightbulb').trigger('light:toggle');
+});</code></pre>
+				</section>
+				<section>
+					<h2>Exercici</h2>
+					<p>Feu el mateix exercici de la llista de la compra però usant jQuery.</p>
+					<img src="images/shopping-list.png" />
+				</section>
+			</section>
 			</div>
 		</div>
 
