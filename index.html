@@ -1147,6 +1147,24 @@ $('input').attr('checked', true); // sets value.</code></pre>
 					<p class="fragment">És una de les grans potències de jQuery.</p>
 				</section>
 				<section>
+					<h2><code>$.each()</code> vs. <code>.each()</code></h2>
+					<p>Podem usar <code>$.each()</code> per iterar sobre objectes o sobre un array (similar al <code>forEach()</code> nadiu) de forma fàcil.</p>
+					<pre><code class="js">$.each([ 52, 97 ], function( index, value ) {
+  alert(index + ': ' + value);
+});</code></pre>
+				</section>
+				<section>
+					<h2><code>$.each()</code> vs. <code>$.fn.each()</code></h2>
+					<p>Usem <code>.each()</code> per iterar sobre un objecte jQuery i poder fer accions sobre cadascun dels seus elements.</p>
+					<pre><code class="html">&lt;ul&gt;
+  &lt;li&gt;foo&lt;/li&gt;
+  &lt;li&gt;bar&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+					<pre><code class="js">$('li').each(function(index) {
+  console.log(index + ': ' + $(this).text());
+});</code></pre>
+				</section>
+				<section>
 					<h2>Manipulació del DOM</h2>
 					<p>Existeixen múltiples funcions que ens permeten la manipulació del DOM.</p>
 					<pre><code class="js">$('.modal-video').appendTo('body');</code></pre>
