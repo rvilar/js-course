@@ -1265,7 +1265,7 @@ $('.switch').click(function() {
 					<p class="fragment">Agafem com a exemple un connector que modifiqui qualsevol element fent que el seu text passi a ser de color verd. És tan senzill com:</p>
 					<pre class="fragment"><code class="js">$.fn.greenify = function() {
   this.css('color', 'green');
-	return this;
+  return this;
 };
 
 $('a').greenify();</code></pre>
@@ -1307,6 +1307,47 @@ $('a').greenify();</code></pre>
 					<pre><code class="js">$('div').greenify({
   color: 'yellow'
 });</code></pre>
+				</section>
+				<section>
+					<h2>Exercici</h2>
+					<p>Crear un plugin que donada una llista HTML la transformi en un camp desplegable de formulari.</p>
+					<p>Afegir dues opcions per a poder definir el valor predeterminar i el text inicial del camp.</p>
+					<pre><code class="js">$(document).ready(function() {
+  $('ul').list2select({
+    noneValue: '- Select one value -',
+    defaultValue: 2
+  });
+});</code></pre>
+				</section>
+				<section>
+					<h2>Solució</h2>
+					<pre><code class="js">function($) {
+  $.fn.list2select = function(options) {
+    var settings = $.extend({
+      noneValue: '- None -',
+      defaultValue: 0
+    }, options);
+
+    this.each(function() {
+      var $select = $('&lt;select /&gt;');
+      var options = [];
+      if (settings.noneValue) {
+        options.push('&lt;option value="-1"&gt;' + settings.noneValue + '&lt;/option&gt;');
+      }
+      $(this).find('li').each(function(index) {
+        var selected = '';
+        if (index === settings.defaultValue) {
+          selected = ' selected';
+        }
+        options.push('&lt;option value="' + index + '"' + selected + '&gt;' + $(this).text() + '&lt;/option&gt;');
+      })
+      $select.append(options.join(''));
+      $(this).after($select);
+
+      $(this).remove();
+    });
+  };
+})(jQuery);</code></pre>
 				</section>
 			</section>
 			<section>
